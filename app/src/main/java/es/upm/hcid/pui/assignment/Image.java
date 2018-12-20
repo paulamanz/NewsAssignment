@@ -1,4 +1,4 @@
-package es.upm.hcid.pui.assignment;
+/*package es.upm.hcid.pui.assignment;
 
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -30,7 +30,7 @@ public class Image extends ModelEntity{
 	 * @param idArticle - id of article of the image
 	 * @param image - data of the image
 	 */
-	protected Image(ModelManager mm,int order, String description, int idArticle, String b64Image){
+/*	protected Image(ModelManager mm,int order, String description, int idArticle, String b64Image){
 		super(mm);
 		this.id=-1;
 		this.order = order;
@@ -45,7 +45,7 @@ public class Image extends ModelEntity{
 	 * @param jsonImage
 	 */
 	@SuppressWarnings("unchecked")
-	protected Image(ModelManager mm,JSONObject jsonImage){
+/*	protected Image(ModelManager mm,JSONObject jsonImage){
 		super(mm);
 		try{
 			id = Integer.parseInt(jsonImage.get("id").toString());
@@ -62,36 +62,35 @@ public class Image extends ModelEntity{
 	/**
 	 * 
 	 * @return
-	 */
-	public int getOrder() {
+	 *public int getOrder() {
 		return order;
 	}
 	/**
 	 * 
 	 * @param order
 	 */
-	public void setOrder(int order) {
+/*	public void setOrder(int order) {
 		this.order = order;
 	}
 	/**
 	 * 
 	 * @return
 	 */
-	public String getDescription() {
+/*	public String getDescription() {
 		return description;
 	}
 	/**
 	 * 
 	 * @param description
 	 */
-	public void setDescription(String description) {
+/*	public void setDescription(String description) {
 		this.description = description;
 	}
 	/**
 	 * 
 	 * @return
 	 */
-	public int getIdArticle() {
+/*	public int getIdArticle() {
 		return idArticle;
 	}
 	
@@ -99,7 +98,7 @@ public class Image extends ModelEntity{
 	 * 
 	 */
 	@Override
-	public String toString() {
+/*	public String toString() {
 		return "Image [id=" + getId() + ", order=" + order + 
 				", description=" + description + 
 				", id_article=" + idArticle + 
