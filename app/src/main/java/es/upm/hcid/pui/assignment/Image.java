@@ -1,9 +1,11 @@
-/*package es.upm.hcid.pui.assignment;
+package es.upm.hcid.pui.assignment;
 
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
-import java.awt.image.BufferedImage;
-import java.awt.image.RenderedImage;
+//import java.awt.Graphics2D;
+//mport java.awt.RenderingHints;
+//import java.awt.image.BufferedImage;
+//import java.awt.image.RenderedImage;
+import android.os.Build;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -12,7 +14,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Hashtable;
 
-import javax.imageio.ImageIO;
+//import javax.imageio.ImageIO;
 
 import org.json.simple.JSONObject;
 
@@ -30,7 +32,7 @@ public class Image extends ModelEntity{
 	 * @param idArticle - id of article of the image
 	 * @param image - data of the image
 	 */
-/*	protected Image(ModelManager mm,int order, String description, int idArticle, String b64Image){
+	protected Image(ModelManager mm,int order, String description, int idArticle, String b64Image){
 		super(mm);
 		this.id=-1;
 		this.order = order;
@@ -45,12 +47,14 @@ public class Image extends ModelEntity{
 	 * @param jsonImage
 	 */
 	@SuppressWarnings("unchecked")
-/*	protected Image(ModelManager mm,JSONObject jsonImage){
+	protected Image(ModelManager mm,JSONObject jsonImage){
 		super(mm);
 		try{
 			id = Integer.parseInt(jsonImage.get("id").toString());
 			order = Integer.parseInt(jsonImage.get("order").toString());
-			description = jsonImage.getOrDefault("description","").toString().replaceAll("\\\\","");
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+				description = jsonImage.getOrDefault("description","").toString().replaceAll("\\\\","");
+			}
 			idArticle = Integer.parseInt(jsonImage.get("id_article").toString().replaceAll("\\\\",""));
 			image = (jsonImage.get("data").toString().replaceAll("\\\\",""));
 		}catch(Exception e){
@@ -69,28 +73,28 @@ public class Image extends ModelEntity{
 	 * 
 	 * @param order
 	 */
-/*	public void setOrder(int order) {
+	public void setOrder(int order) {
 		this.order = order;
 	}
 	/**
 	 * 
 	 * @return
 	 */
-/*	public String getDescription() {
+	public String getDescription() {
 		return description;
 	}
 	/**
 	 * 
 	 * @param description
 	 */
-/*	public void setDescription(String description) {
+	public void setDescription(String description) {
 		this.description = description;
 	}
 	/**
 	 * 
 	 * @return
 	 */
-/*	public int getIdArticle() {
+	public int getIdArticle() {
 		return idArticle;
 	}
 	
@@ -98,7 +102,7 @@ public class Image extends ModelEntity{
 	 * 
 	 */
 	@Override
-/*	public String toString() {
+	public String toString() {
 		return "Image [id=" + getId() + ", order=" + order + 
 				", description=" + description + 
 				", id_article=" + idArticle + 
