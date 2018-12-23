@@ -15,6 +15,9 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity {
 
     public static Context myContext = null;
+    public static String username = null;
+    public static String password = null;
+    public static String errorLoging = null;
     public static TextView txt; // temporal, para ver los resultados
     SharedPreferences preferencia = null;
 
@@ -27,12 +30,16 @@ public class MainActivity extends AppCompatActivity {
         preferencia = getSharedPreferences("MiPreferencia",Context.MODE_PRIVATE);
         // para bajar datos de la pagina web
         Button b = findViewById(R.id.loginButton);
+        errorLoging = findViewById(R.id.errorMessage).toString();
         txt = findViewById(R.id.textView);
+        username = findViewById(R.id.usernameInput).toString();
+        password = findViewById(R.id.passwordInput).toString();
+
         b.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
                 AsyncTaskLog task = new AsyncTaskLog();
-                task.execute(new String[]{"https://www.marca.com/"});
+                task.execute(/*new String[]{"https://www.marca.com/"}*/);
             }
         });
     }

@@ -8,6 +8,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import es.upm.hcid.pui.assignment.ModelManager;
+
 public class AsyncTaskLog extends AsyncTask<String, Integer, String> {
 
     private ProgressDialog progressDialog;
@@ -17,7 +19,7 @@ public class AsyncTaskLog extends AsyncTask<String, Integer, String> {
     protected void onPreExecute() {
         super.onPreExecute();
         progressDialog = new ProgressDialog(MainActivity.myContext);
-        progressDialog.setMessage("Downloading ...");
+        progressDialog.setMessage("Loggin ...");
         progressDialog.setCancelable(false);
         progressDialog.show();
     }
@@ -36,6 +38,17 @@ public class AsyncTaskLog extends AsyncTask<String, Integer, String> {
     protected String doInBackground(String... urls) {
         String result = "";
         try {
+            if(MainActivity.username == null || MainActivity.username.length()== 0) {
+                MainActivity.errorLoging = "Incorrect username";
+            }
+            else if (MainActivity.password == null || MainActivity.password.length()== 0) {
+                MainActivity.errorLoging = "Incorrect password";
+            }
+            else {
+                //ModelManager.login(MainActivity.username, MainActivity.password);
+            }
+
+            /*
             URL url;
             HttpURLConnection urlConnection = null;
             try {
@@ -57,7 +70,8 @@ public class AsyncTaskLog extends AsyncTask<String, Integer, String> {
                 if (urlConnection != null) {
                     urlConnection.disconnect();
                 }
-            }
+
+            } */
         } catch (Exception e) {
             e.printStackTrace();
             result = "Exception: " + e.getMessage();
