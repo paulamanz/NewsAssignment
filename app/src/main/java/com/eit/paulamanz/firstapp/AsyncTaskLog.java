@@ -7,12 +7,20 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.List;
+import java.util.Properties;
 
+import es.upm.hcid.pui.assignment.Article;
 import es.upm.hcid.pui.assignment.ModelManager;
+import es.upm.hcid.pui.assignment.exceptions.AuthenticationError;
+import es.upm.hcid.pui.assignment.exceptions.ServerCommunicationError;
 
 public class AsyncTaskLog extends AsyncTask<String, Integer, String> {
 
     private ProgressDialog progressDialog;
+    Properties prop = new Properties();
+    static ModelManager myModelManager = null;
+
 
     // primero en ejecutarse
     @Override
@@ -37,45 +45,39 @@ public class AsyncTaskLog extends AsyncTask<String, Integer, String> {
     @Override
     protected String doInBackground(String... urls) {
         String result = "";
-        try {
-            if(MainActivity.username == null || MainActivity.username.length()== 0) {
-                MainActivity.errorLoging = "Incorrect username";
-            }
-            else if (MainActivity.password == null || MainActivity.password.length()== 0) {
-                MainActivity.errorLoging = "Incorrect password";
-            }
-            else {
-                //ModelManager.login(MainActivity.username, MainActivity.password);
-            }
 
-            /*
-            URL url;
-            HttpURLConnection urlConnection = null;
-            try {
-                url = new URL(urls[0]);
-                urlConnection = (HttpURLConnection) url.openConnection();
-
-                InputStream in = urlConnection.getInputStream();
-                InputStreamReader isw = new InputStreamReader(in);
-                int data = isw.read();
-                int cont = 0;
-                while (data != -1 && cont <1000) {
-                    result += (char) data;
-                    data = isw.read();
-                    cont++;
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                if (urlConnection != null) {
-                    urlConnection.disconnect();
-                }
-
-            } */
-        } catch (Exception e) {
-            e.printStackTrace();
-            result = "Exception: " + e.getMessage();
+        // user incorrect
+        if(MainActivity.username == null || MainActivity.username.length()== 0) {
+            MainActivity.errorLoging = "Incorrect username";
         }
-        return result;
+        // password incorrect
+        else if (MainActivity.password == null || MainActivity.password.length()== 0) {
+            MainActivity.errorLoging = "Incorrect password";
+        }
+        // OK
+        else {
+            try {
+                prop.setProperty(ModelManager.ATTR_LOGIN_USER, MainActivity.username);
+                prop.setProperty(ModelManager.ATTR_LOGIN_PASS, MainActivity.password);
+                prop.setProperty(ModelManager.ATTR_SERVICE_URL, urls[0]);
+                prop.setProperty(ModelManager.ATTR_REQUIRE_SELF_CERT, "TRUE");
+                myModelManager = new ModelManager(prop);
+                //myModelManager.login(MainActivity.username, MainActivity.password);
+
+            } catch (AuthenticationError authenticationError) {
+                authenticationError.printStackTrace();
+            }
+
+            // Lista de Articulos recibida al hacer el login
+            try {
+                List<Article> res = myModelManager.getArticles(2,2);
+                for (Article article : res) {
+                    System.out.println(article);
+                }
+            } catch (ServerCommunicationError serverCommunicationError) {
+                serverCommunicationError.printStackTrace();
+            }
+        }
+      return result;
     }
 }

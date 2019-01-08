@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
     public static String password = null;
     public static String errorLoging = null;
     public static TextView txt; // temporal, para ver los resultados
-    SharedPreferences preferencia = null;
+    //SharedPreferences preferencia = null;
 
 
     @Override
@@ -27,8 +27,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         myContext = this;
-        preferencia = getSharedPreferences("MiPreferencia",Context.MODE_PRIVATE);
-        // para bajar datos de la pagina web
+        //preferencia = getSharedPreferences("MiPreferencia",Context.MODE_PRIVATE);
+
+
         Button b = findViewById(R.id.loginButton);
         errorLoging = findViewById(R.id.errorMessage).toString();
         txt = findViewById(R.id.textView);
@@ -39,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 AsyncTaskLog task = new AsyncTaskLog();
-                task.execute(/*new String[]{"https://www.marca.com/"}*/);
+                task.execute(new String[]{"https://sanger.dia.fi.upm.es/pui-rest-news/"});
             }
         });
     }
