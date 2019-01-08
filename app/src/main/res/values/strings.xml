@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">FirstApp</string>
+    <string name="login_error_message">You must introduce a valid username and password</string>
+    <string name="login_failed">Login failed</string>
+    <string name="loading">Loading...</string>
 </resources>
