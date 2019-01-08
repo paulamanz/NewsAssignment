@@ -62,7 +62,7 @@ public class AsyncTaskLog extends AsyncTask<String, Integer, String> {
                 prop.setProperty(ModelManager.ATTR_SERVICE_URL, urls[0]);
                 prop.setProperty(ModelManager.ATTR_REQUIRE_SELF_CERT, "TRUE");
                 myModelManager = new ModelManager(prop);
-                //myModelManager.login(MainActivity.username, MainActivity.password);
+                myModelManager.login(MainActivity.username, MainActivity.password);
 
             } catch (AuthenticationError authenticationError) {
                 authenticationError.printStackTrace();
