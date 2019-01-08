@@ -21,7 +21,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".AboutUs" />
-        <activity android:name=".newsActivity"></activity>
+        <activity android:name=".newsActivity" />
+        <activity android:name=".ListView" />
+        <activity android:name=".NewsDetails"></activity>
     </application>
 
 </manifest>
