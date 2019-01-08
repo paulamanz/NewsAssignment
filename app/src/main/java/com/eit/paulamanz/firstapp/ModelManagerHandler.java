@@ -1,0 +1,65 @@
+package com.eit.paulamanz.firstapp;
+
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
+import java.util.Properties;
+
+import es.upm.hcid.pui.assignment.ModelManager;
+import es.upm.hcid.pui.assignment.exceptions.AuthenticationError;
+
+public class ModelManagerHandler {
+
+    private static ModelManagerHandler INSTANCE = null;
+
+    private static final String USER_INFO_SHARED_PREFERENCES_KEY = "USER_INFO_PREFS";
+
+    private static final String USERNAME_KEY = "userInfo:username";
+    private static final String PASSWORD_KEY = "userInfo:password";
+
+    private ModelManager modelManager;
+    private Properties properties;
+
+    private ModelManagerHandler() {
+
+    }
+
+    public static ModelManagerHandler getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new ModelManagerHandler();
+        }
+
+        return INSTANCE;
+    }
+
+    public void initialize(Properties properties) throws AuthenticationError {
+        this.properties = properties;
+        modelManager = new ModelManager(properties);
+    }
+
+    public void storeUserInfo(@NonNull Context context) {
+        String username = properties.getProperty(ModelManager.ATTR_LOGIN_USER);
+        String password = properties.getProperty(ModelManager.ATTR_LOGIN_PASS);
+
+        SharedPreferences prefs = context.getSharedPreferences(USER_INFO_SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE);
+        SharedPreferences.Editor prefsEditor = prefs.edit();
+        prefsEditor.putString(USERNAME_KEY, username);
+        prefsEditor.putString(PASSWORD_KEY, password);
+        prefsEditor.commit();
+    }
+
+    @Nullable
+    public UserInfo getUserInfo(@NonNull Context context) {
+        SharedPreferences prefs = context.getSharedPreferences(USER_INFO_SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE);
+        String username = prefs.getString(USERNAME_KEY, null);
+        String password = prefs.getString(PASSWORD_KEY, null);
+
+        if (username == null || password == null) {
+            return null;
+        }
+
+        return new UserInfo(username, password);
+    }
+}
