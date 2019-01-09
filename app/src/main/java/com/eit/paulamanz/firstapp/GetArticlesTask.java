@@ -1,34 +1,30 @@
 package com.eit.paulamanz.firstapp;
 
-import android.app.ProgressDialog;
+
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
-import java.io.Serializable;
 import java.util.List;
-import java.util.Properties;
+
 
 import es.upm.hcid.pui.assignment.Article;
-import es.upm.hcid.pui.assignment.ModelManager;
-import es.upm.hcid.pui.assignment.exceptions.AuthenticationError;
 import es.upm.hcid.pui.assignment.exceptions.ServerCommunicationError;
 
-public class LoginTask extends AsyncTask<String, Void, Boolean> {
+public class GetArticlesTask extends AsyncTask<String, Void, Boolean> {
 
     private final Context context;
-    private final Properties properties;
     private ProgressBar progressBar;
+    private List<Article> articlesList;
+    private NewsListActivity activity;
 
     private ModelManagerHandler modelManagerHandler = ModelManagerHandler.getInstance();
 
-    public LoginTask(Context context, Properties properties) {
+    public GetArticlesTask(NewsListActivity activity,Context context) {
         this.context = context;
-        this.properties = properties;
+        this.activity= activity;
     }
 
     @Override
@@ -42,11 +38,11 @@ public class LoginTask extends AsyncTask<String, Void, Boolean> {
     protected Boolean doInBackground(String... strings) {
         boolean success = false;
         try {
-            modelManagerHandler.initialize(properties);
+            articlesList = modelManagerHandler.getList();
 
             success = true;
-        } catch (AuthenticationError authenticationError) {
-            Log.e("LOGIN_LOG_TAG", authenticationError.getMessage());
+        } catch (ServerCommunicationError serverCommunicationError) {
+            Log.e("GET_LIST_TAG", serverCommunicationError.getMessage());
         }
 
 
@@ -59,16 +55,8 @@ public class LoginTask extends AsyncTask<String, Void, Boolean> {
         progressBar.setVisibility(View.GONE);
 
         if (success) {
-            modelManagerHandler.storeUserInfo(context);
-
-            Intent articlesIntent = new Intent(context, NewsListActivity.class);
-            context.startActivity(articlesIntent);
-        } else {
-            showError();
+            activity.updateList(articlesList);
         }
     }
 
-    private void showError() {
-        Toast.makeText(context, context.getString(R.string.login_failed), Toast.LENGTH_SHORT).show();
-    }
 }

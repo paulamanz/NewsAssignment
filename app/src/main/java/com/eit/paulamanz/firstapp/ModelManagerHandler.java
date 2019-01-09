@@ -5,10 +5,13 @@ import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import java.util.List;
 import java.util.Properties;
 
+import es.upm.hcid.pui.assignment.Article;
 import es.upm.hcid.pui.assignment.ModelManager;
 import es.upm.hcid.pui.assignment.exceptions.AuthenticationError;
+import es.upm.hcid.pui.assignment.exceptions.ServerCommunicationError;
 
 public class ModelManagerHandler {
 
@@ -37,6 +40,15 @@ public class ModelManagerHandler {
     public void initialize(Properties properties) throws AuthenticationError {
         this.properties = properties;
         modelManager = new ModelManager(properties);
+    }
+
+    public List<Article> getList() throws ServerCommunicationError {
+        return modelManager.getArticles(2,2);
+
+    }
+
+    public Article getArticle(int articleId) throws ServerCommunicationError {
+        return modelManager.getArticle(articleId);
     }
 
     public void storeUserInfo(@NonNull Context context) {

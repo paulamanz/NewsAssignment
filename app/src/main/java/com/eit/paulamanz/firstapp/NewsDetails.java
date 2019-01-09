@@ -14,27 +14,48 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import org.w3c.dom.Text;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class NewsDetails extends AppCompatActivity {
+import es.upm.hcid.pui.assignment.Article;
+import es.upm.hcid.pui.assignment.Utils;
+
+public class NewsDetails extends AppCompatActivity implements NewsDetailsView {
 
     public static final int REQUEST_CODE = 5;
     static final int REQUEST_IMAGE_CAPTURE = 1;
+    private int articleId;
+    TextView title;
+    // TextView subtitle;
+    TextView category;
+    TextView articleAbstract;
+    TextView body;
+    TextView footer;
+    Button edit;
+    ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_details);
 
-        Button edit = findViewById(R.id.btn_edit);
-        TextView Title = findViewById(R.id.txt_title);
-        TextView Subtitle = findViewById(R.id.txt_subtitle);
-        TextView Category = findViewById(R.id.txt_category);
-        TextView Abstract = findViewById(R.id.txt_abstract);
-        TextView Body = findViewById(R.id.txt_body);
-        TextView Footer = findViewById(R.id.txt_footer);
+        Intent intent = getIntent();
+        articleId = intent.getIntExtra("key", 0);
+
+        edit = findViewById(R.id.btn_edit);
+        title = findViewById(R.id.txt_title);
+        imageView = findViewById(R.id.img_view);
+        category = findViewById(R.id.txt_category);
+        articleAbstract = findViewById(R.id.txt_abstract);
+        body = findViewById(R.id.txt_body);
+        footer = findViewById(R.id.txt_footer);
+
+        GetDetailsTask getDetailsTask = new GetDetailsTask(this, this, articleId);
+        getDetailsTask.execute();
 
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,10 +64,10 @@ public class NewsDetails extends AppCompatActivity {
             }
         });
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        ImageView imageView = findViewById(R.id.img_view);
 
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
@@ -107,5 +128,15 @@ public class NewsDetails extends AppCompatActivity {
                     }
                 });
         pictureDialog.show();
+    }
+
+    @Override
+    public void showArticleInfo(Article article) {
+        title.setText(article.getTitleText());
+        articleAbstract.setText(article.getAbstractText());
+        category.setText(article.getCategory());
+        body.setText(article.getBodyText());
+        footer.setText(article.getFooterText());
+        imageView.setImageBitmap(Utils.base64StringToImg(article.getImage().getImage()));
     }
 }

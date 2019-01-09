@@ -8,33 +8,41 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class CustomListAdapter extends ArrayAdapter<String> {
+
+import java.util.List;
+
+import es.upm.hcid.pui.assignment.Article;
+import es.upm.hcid.pui.assignment.Utils;
+
+
+public class CustomListAdapter extends ArrayAdapter<Article> {
 
     private final Activity context;
-    private final String[] itemname;
-    private final Integer[] imgid;
+    private final List<Article> itemlist;
 
-    public CustomListAdapter(Activity context, String[] itemname, Integer[] imgid) {
-        super(context, R.layout.mylist, itemname);
-        // TODO Auto-generated constructor stub
 
-        this.context=context;
-        this.itemname=itemname;
-        this.imgid=imgid;
+    public CustomListAdapter(Activity context, List<Article> itemlist) {
+        super(context, R.layout.mylist, itemlist);
+
+        this.context = context;
+        this.itemlist = itemlist;
+
     }
 
-    public View getView(int position,View view,ViewGroup parent) {
-        LayoutInflater inflater=context.getLayoutInflater();
-        View rowView=inflater.inflate(R.layout.mylist, null,true);
+    public View getView(int position, View view, ViewGroup parent) {
+        LayoutInflater inflater = context.getLayoutInflater();
+        View rowView = inflater.inflate(R.layout.mylist, null, true);
 
-        TextView txtTitle = (TextView) rowView.findViewById(R.id.item);
-        ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
-        TextView extratxt = (TextView) rowView.findViewById(R.id.textView1);
+        TextView txtTitle = rowView.findViewById(R.id.item);
+        ImageView imageView = rowView.findViewById(R.id.icon);
 
-        txtTitle.setText(itemname[position]);
-        imageView.setImageResource(imgid[position]);
-        extratxt.setText("Description "+itemname[position]);
+        Article article = itemlist.get(position);
+
+        txtTitle.setText(article.getTitleText());
+        imageView.setImageBitmap(Utils.base64StringToImg(article.getImage().getImage()));
+
         return rowView;
+    }
 
-    };
+    ;
 }
