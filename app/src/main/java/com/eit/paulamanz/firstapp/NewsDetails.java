@@ -57,6 +57,7 @@ public class NewsDetails extends AppCompatActivity implements NewsDetailsView {
         GetDetailsTask getDetailsTask = new GetDetailsTask(this, this, articleId);
         getDetailsTask.execute();
 
+        //TODO upload images to the API
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
