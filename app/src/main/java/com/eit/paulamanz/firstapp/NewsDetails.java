@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -33,7 +34,8 @@ public class NewsDetails extends AppCompatActivity implements NewsDetailsView {
     // TextView subtitle;
     TextView category;
     TextView articleAbstract;
-    TextView body;
+    //TextView body;
+    WebView body;
     TextView footer;
     Button edit;
     ImageView imageView;
@@ -51,7 +53,8 @@ public class NewsDetails extends AppCompatActivity implements NewsDetailsView {
         imageView = findViewById(R.id.img_view);
         category = findViewById(R.id.txt_category);
         articleAbstract = findViewById(R.id.txt_abstract);
-        body = findViewById(R.id.txt_body);
+        //body = findViewById(R.id.txt_body);
+        body = findViewById(R.id.webview_body);
         footer = findViewById(R.id.txt_footer);
 
         GetDetailsTask getDetailsTask = new GetDetailsTask(this, this, articleId);
@@ -136,7 +139,8 @@ public class NewsDetails extends AppCompatActivity implements NewsDetailsView {
         title.setText(article.getTitleText());
         articleAbstract.setText(article.getAbstractText());
         category.setText(article.getCategory());
-        body.setText(article.getBodyText());
+        //body.setText(article.getBodyText());
+        body.loadDataWithBaseURL("", article.getBodyText(), "text/html", "UTF-8", "");
         footer.setText(article.getFooterText());
         imageView.setImageBitmap(Utils.base64StringToImg(article.getImage().getImage()));
     }
