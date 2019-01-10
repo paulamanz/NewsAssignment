@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
         Editable usernameEditable = usernameTextField.getText();
         Editable passwordEditable = passwordTextField.getText();
 
-        if (usernameEditable == null || passwordEditable == null) {
+        if (usernameEditable == null || usernameEditable.length()== 0 || passwordEditable == null || passwordEditable.length()==0) {
             showLoginError();
             return;
         }

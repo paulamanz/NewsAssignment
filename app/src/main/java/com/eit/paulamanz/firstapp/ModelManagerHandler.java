@@ -43,7 +43,7 @@ public class ModelManagerHandler {
     }
 
     public List<Article> getList() throws ServerCommunicationError {
-        return modelManager.getArticles(2,2);
+        return modelManager.getArticles(/*2,2*/);
 
     }
 
