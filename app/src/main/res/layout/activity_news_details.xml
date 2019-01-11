@@ -17,6 +17,7 @@
         app:layout_constraintVertical_bias="1.0">
 
         <LinearLayout
+            android:id="@+id/mainLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
@@ -53,7 +54,10 @@
                         android:layout_width="149dp"
                         android:layout_height="35dp"
                         android:layout_marginStart="12dp"
-                        android:layout_marginLeft="12dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginRight="8dp"
                         android:layout_weight="1"
                         android:background="#0033cc"
                         android:text="Edit"
@@ -72,10 +76,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_marginStart="16dp"
-                        android:layout_marginLeft="16dp"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginEnd="16dp"
-                        android:layout_marginRight="16dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginRight="8dp"
                         android:layout_marginBottom="16dp"
                         android:ellipsize="end"
                         android:text="Title"
@@ -91,10 +95,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="32dp"
                         android:layout_marginStart="16dp"
-                        android:layout_marginLeft="16dp"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginEnd="16dp"
-                        android:layout_marginRight="16dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginRight="8dp"
                         android:text="Category"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -110,18 +114,30 @@
                 android:id="@+id/txt_abstract"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
+                android:layout_marginLeft="18dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
                 android:text="Abstract"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
             <WebView
                 android:id="@+id/webview_body"
                 android:layout_width="match_parent"
-                android:layout_height="908dp" />
+                android:layout_height="908dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp" />
 
             <TextView
                 android:id="@+id/txt_footer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
                 android:text="Footer" />
 
         </LinearLayout>
