@@ -23,7 +23,10 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import es.upm.hcid.pui.assignment.Article;
+import es.upm.hcid.pui.assignment.Image;
 import es.upm.hcid.pui.assignment.Utils;
+
+import static es.upm.hcid.pui.assignment.Utils.imgToBase64String;
 
 public class NewsDetails extends AppCompatActivity implements NewsDetailsView {
 
@@ -73,19 +76,24 @@ public class NewsDetails extends AppCompatActivity implements NewsDetailsView {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+
+
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
-            imageView.setImageBitmap(imageBitmap);
+            Bitmap imageCamera = (Bitmap) extras.get("data");
+            imageView.setImageBitmap(imageCamera);
+            uploadImage(imageCamera);
         }
+
 
         if (requestCode == REQUEST_CODE &&
                 resultCode == Activity.RESULT_OK) {
             InputStream stream = null;
             try {
                 stream = getContentResolver().openInputStream(data.getData());
-                Bitmap bitmap = BitmapFactory.decodeStream(stream);
-                imageView.setImageBitmap(bitmap);
+                Bitmap imageGallery = BitmapFactory.decodeStream(stream);
+                imageView.setImageBitmap(imageGallery);
+                uploadImage(imageGallery);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             } finally {
@@ -98,6 +106,14 @@ public class NewsDetails extends AppCompatActivity implements NewsDetailsView {
                 }
             }
         }
+
+    }
+
+    private void uploadImage(Bitmap bitmap){
+        ModelManagerHandler modelManagerHandler = ModelManagerHandler.getInstance();
+        Image image = modelManagerHandler.createImage(bitmap,articleId);
+        UploadImgTask uploadImgTask = new UploadImgTask(this,this,image);
+        uploadImgTask.execute();
     }
 
     private void dispatchTakePictureIntent() {

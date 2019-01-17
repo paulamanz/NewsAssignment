@@ -2,16 +2,21 @@ package com.eit.paulamanz.firstapp;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.Html;
 
 import java.util.List;
 import java.util.Properties;
 
 import es.upm.hcid.pui.assignment.Article;
+import es.upm.hcid.pui.assignment.Image;
 import es.upm.hcid.pui.assignment.ModelManager;
 import es.upm.hcid.pui.assignment.exceptions.AuthenticationError;
 import es.upm.hcid.pui.assignment.exceptions.ServerCommunicationError;
+
+import static es.upm.hcid.pui.assignment.Utils.imgToBase64String;
 
 public class ModelManagerHandler {
 
@@ -50,6 +55,12 @@ public class ModelManagerHandler {
     public Article getArticle(int articleId) throws ServerCommunicationError {
         return modelManager.getArticle(articleId);
     }
+
+    public Image createImage (Bitmap bitmap, int articleId){
+        Image image = new Image(this.modelManager,0,"",articleId,imgToBase64String(bitmap));
+        return image;
+    }
+
 
     public void storeUserInfo(@NonNull Context context) {
         String username = properties.getProperty(ModelManager.ATTR_LOGIN_USER);

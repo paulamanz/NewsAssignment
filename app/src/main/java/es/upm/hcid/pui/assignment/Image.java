@@ -32,7 +32,7 @@ public class Image extends ModelEntity{
 	 * @param idArticle - id of article of the image
 	 * @param image - data of the image
 	 */
-	protected Image(ModelManager mm,int order, String description, int idArticle, String b64Image){
+	public Image(ModelManager mm,int order, String description, int idArticle, String b64Image){
 		super(mm);
 		this.id=-1;
 		this.order = order;
