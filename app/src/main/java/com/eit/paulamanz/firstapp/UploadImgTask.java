@@ -1,5 +1,6 @@
 package com.eit.paulamanz.firstapp;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -15,7 +16,7 @@ public class UploadImgTask extends AsyncTask<String, Void, Boolean> {
 
     private final NewsDetailsView view;
     private final Context context;
-    private ProgressBar progressBar;
+    private ProgressDialog progressDialog;
     private Image image;
     private int articleId;
 
@@ -30,8 +31,10 @@ public class UploadImgTask extends AsyncTask<String, Void, Boolean> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        progressBar = new ProgressBar(context);
-        progressBar.setVisibility(View.VISIBLE);
+        progressDialog = new ProgressDialog(context);
+        progressDialog.setMessage("Login ...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
     }
 
     @Override
@@ -51,7 +54,7 @@ public class UploadImgTask extends AsyncTask<String, Void, Boolean> {
     @Override
     protected void onPostExecute(Boolean success) {
         super.onPostExecute(success);
-        progressBar.setVisibility(View.GONE);
+        progressDialog.dismiss();
 
         if (success) {
             String Slecteditem="Image updated";
