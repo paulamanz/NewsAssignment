@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String LOGIN_URL = "https://sanger.dia.fi.upm.es/pui-rest-news/";
 
     public static Context myContext = null;
-    public static String errorLoging = null;
+    //public static String errorLoging = null;
 
     private EditText usernameTextField;
     private EditText passwordTextField;
@@ -30,18 +30,19 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         setUpViews();
         fillUserInfoFieldsIfPossible();
         setUpClickListeners();
     }
 
+    // recogida de datos de los usuarios
     private void setUpViews() {
         usernameTextField = findViewById(R.id.usernameInput);
         passwordTextField = findViewById(R.id.passwordInput);
         loginButton = findViewById(R.id.loginButton);
     }
 
+    // Obtencion de los datos proporcionados por el usuario
     private void fillUserInfoFieldsIfPossible() {
         ModelManagerHandler modelManagerHandler = ModelManagerHandler.getInstance();
         UserInfo userInfo = modelManagerHandler.getUserInfo(this);
@@ -61,18 +62,32 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    // Funcion para detectar errores previos al login,
+    // generar feedback correspondiente al usuario
+    // y en caso de error, evitar lanzar la tarea
     private void onLoginButtonClicked() {
         Editable usernameEditable = usernameTextField.getText();
         Editable passwordEditable = passwordTextField.getText();
 
-        if (usernameEditable == null || usernameEditable.length()== 0 || passwordEditable == null || passwordEditable.length()==0) {
-            showLoginError();
+        if (usernameEditable.length() == 0 && passwordEditable.length() == 0){
+            showLoginError(3);
             return;
+        } else{
+            if (usernameEditable.length() == 0){
+                showLoginError(1);
+                return;
+            }
+            if (passwordEditable.length() == 0){
+                showLoginError(2);
+                return;
+            }
         }
-
         doLogin(usernameEditable.toString(), passwordEditable.toString());
     }
 
+
+    // Funcion para establecer las propiedades necesarias para el login
+    // y ejecutar su correspondiente tarea asincrona
     private void doLogin(String username, String password) {
         Properties properties = new Properties();
         properties.setProperty(ModelManager.ATTR_LOGIN_USER, username);
@@ -84,7 +99,16 @@ public class MainActivity extends AppCompatActivity {
         loginTask.execute();
     }
 
-    private void showLoginError() {
-        Toast.makeText(this, getString(R.string.login_error_message), Toast.LENGTH_SHORT).show();
+
+    // Funcion dedicada a mostrar errores segun que campo sea erroneo
+    private void showLoginError(int code) {
+        switch (code){
+            case 1: Toast.makeText(this, getString(R.string.login_error_message_1), Toast.LENGTH_SHORT).show();
+                    break;
+            case 2: Toast.makeText(this, getString(R.string.login_error_message_2), Toast.LENGTH_SHORT).show();
+                    break;
+            case 3: Toast.makeText(this, getString(R.string.login_error_message_3), Toast.LENGTH_SHORT).show();
+                    break;
+        }
     }
 }
